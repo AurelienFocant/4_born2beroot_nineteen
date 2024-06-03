@@ -12,10 +12,13 @@ TOTADISK=$(df -BG | awk '{td += $2} END {print td}')
 USEDDISK=$(df -BG | awk '{ud += $3} END {print ud}')
 PERCDISK=$(df -BG | awk '{td += $2} {ud += $3} END {printf ("%.2f"), ud/td*100}')
 
+CPUSED=$(top -bn1 | grep %Cpu | awk '{print $2 + $4 + $6}')
+
 echo	"
 Architecture:			$ARCH
 Nb of physical processors:	$PCPU
 Nb of  virtual processors:	$VCPU
 RAM  usage:			${USEDRAM}/${TOTARAM} MiB = ${PERCRAM}%	
 DISK usage:			${USEDDISK}/${TOTADISK} GiB = ${PERCDISK}%
+CPU  usage:			$CPUSED%
 "
