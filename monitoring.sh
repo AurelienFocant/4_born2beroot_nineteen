@@ -8,9 +8,9 @@ TOTARAM=$(free -m | grep Mem | awk '{print $2}')
 USEDRAM=$(free -m | grep Mem | awk '{print $3}')
 PERCRAM=$(free    | grep Mem | awk '{printf ("%.2f"), $3/$2*100}')
 
-TOTADISK=$(df -BG | awk '{td += $2} END {print td}')
-USEDDISK=$(df -BG | awk '{ud += $3} END {print ud}')
-PERCDISK=$(df -BG | awk '{td += $2} {ud += $3} END {printf ("%.2f"), ud/td*100}')
+TOTADISK=$(df -BG --total | grep total | awk '{print $2}')
+USEDDISK=$(df -BG --total | grep total | awk '{print $3}')
+PERCDISK=$(df -BG --total | grep total | awk '{print $5}')
 
 CPUSED=$(top -bn1 | grep %Cpu | awk '{print $2 + $4 + $6}')
 LAST_BOOT=$(who -b | awk '{print($3 " " $4)}')
@@ -28,4 +28,5 @@ RAM  usage			:	${USEDRAM}/${TOTARAM} MiB = ${PERCRAM}%
 DISK usage			:	${USEDDISK}/${TOTADISK} GiB = ${PERCDISK}%
 CPU  usage			:	${CPUSED}%
 Last boot			:	${LAST_BOOT}
+LVM				:	$LVM
 "
