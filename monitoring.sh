@@ -13,12 +13,19 @@ USEDDISK=$(df -BG | awk '{ud += $3} END {print ud}')
 PERCDISK=$(df -BG | awk '{td += $2} {ud += $3} END {printf ("%.2f"), ud/td*100}')
 
 CPUSED=$(top -bn1 | grep %Cpu | awk '{print $2 + $4 + $6}')
+LAST_BOOT=$(who -b | awk '{print($3 " " $4)}')
+LVM=$(if [ $(lsblk | grep lvm | wc -l) -eq 0 ]; then echo no; else echo yes; fi)
 
-echo	"
-Architecture:			$ARCH
-Nb of physical processors:	$PCPU
-Nb of  virtual processors:	$VCPU
-RAM  usage:			${USEDRAM}/${TOTARAM} MiB = ${PERCRAM}%	
-DISK usage:			${USEDDISK}/${TOTADISK} GiB = ${PERCDISK}%
-CPU  usage:			$CPUSED%
+ASCII=$(figlet Born2Betterave)
+
+wall "
+$ASCII
+
+Architecture			:	$ARCH
+Nb of physical processors	:	$PCPU
+Nb of  virtual processors	:	$VCPU
+RAM  usage			:	${USEDRAM}/${TOTARAM} MiB = ${PERCRAM}%	
+DISK usage			:	${USEDDISK}/${TOTADISK} GiB = ${PERCDISK}%
+CPU  usage			:	${CPUSED}%
+Last boot			:	${LAST_BOOT}
 "
