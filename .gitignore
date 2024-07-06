@@ -1,0 +1,11 @@
+.DS_Store
+
+*.swp
+
+*out*
+*.o
+
+infile
+outfile
+
+*libft/*
